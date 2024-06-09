@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analizador Léxico y Sintáctico</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Analizador con yacc</h1>
+    <form method="post">
+        <textarea name="code" placeholder="Ingresa tu código aquí...">{{ code }}</textarea>
+        <br>
+        <input type="submit" value="Analizar">
+    </form>
+    
+<div class="tabla-lol">
+    <div>
+        <h2>Análisis Léxico</h2>
+        {% if lexical_analysis %}
+        <table>
+            <thead>
+                <tr class="coli">
+                    <th>Token</th>
+                    <th>Reservada</th>
+                    <th>Identificador</th>
+                    <th>Número</th>
+                    <th>Símbolo</th>
+                    <th>Paréntesis Izquierdo</th>
+                    <th>Paréntesis Derecho</th>
+                    <th>Llave Izquierda</th>
+                    <th>Llave Derecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for token_data in token_data %}
+                <tr>
+                    <td>{{ token_data.token }}</td>
+                    <td>{% if token_data.class == 'Reservada' %}X{% endif %}</td>
+                    <td>{% if token_data.class == 'Identificador' %}X{% endif %}</td>
+                    <td>{% if token_data.class == 'Numero' %}X{% endif %}</td>
+                    <td>{% if token_data.class == 'Simbolo' %}X{% endif %}</td>
+                    <td>{% if token_data.class == 'Parentesis_Izquierdo' %}X{% endif %}</td>
+                    <td>{% if token_data.class == 'Parentesis_Derecho' %}X{% endif %}</td>
+                    <td>{% if token_data.class == 'Llave_Izquierda' %}X{% endif %}</td>
+                    <td>{% if token_data.class == 'Llave_Derecha' %}X{% endif %}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <th>Total</th>
+                    <th>{{ classified_tokens['Reservada'] }}</th>
+                    <th>{{ classified_tokens['Identificador'] }}</th>
+                    <th>{{ classified_tokens['Numero'] }}</th>
+                    <th>{{ classified_tokens['Simbolo'] }}</th>
+                    <th>{{ classified_tokens['Parentesis_Izquierdo'] }}</th>
+                    <th>{{ classified_tokens['Parentesis_Derecho'] }}</th>
+                    <th>{{ classified_tokens['Llave_Izquierda'] }}</th>
+                    <th>{{ classified_tokens['Llave_Derecha'] }}</th>
+                </tr>
+            </tbody>
+        </table>
+       </div>
+        <div>
+            {% else %}
+        <p>No se realizó análisis léxico.</p>
+        {% endif %}
+        
+        <h2>Análisis Sintáctico</h2>
+        {% if syntactic_analysis %}
+        <p>{{ syntactic_analysis }}</p>
+        {% else %}
+        <p>No se realizó análisis sintáctico.</p>
+        {% endif %}
+        
+        {% if error_message %}
+        <p class="error">{{ error_message }}</p>
+        {% endif %}
+        </div>
+</div>
+</body>
+</html>
